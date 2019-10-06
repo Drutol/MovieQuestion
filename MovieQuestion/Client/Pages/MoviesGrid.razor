@@ -1,0 +1,31 @@
+﻿@page "/movies"
+@using MovieQuestion.Client.Infrastructure
+@using MovieQuestion.Shared.Models
+@inject ApiCommunicator ApiCommunicator
+
+@if (_movies != null)
+{
+    <div id="nav-movie-page">
+        <ul id="movie-grid">
+            @foreach (var movie in _movies)
+            {
+                <div class="movie-item">
+                    <img src="@movie.ImageUrl" />
+                </div>
+            }
+        </ul>
+    </div>
+}
+
+
+@code {
+
+    private List<Movie> _movies;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _movies = await ApiCommunicator.GetMovies();
+        StateHasChanged();
+    }
+
+}
