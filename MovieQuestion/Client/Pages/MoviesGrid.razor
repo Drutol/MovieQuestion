@@ -1,7 +1,11 @@
 ﻿@page "/movies"
 @using MovieQuestion.Client.Infrastructure
+@using MovieQuestion.Client.Utils
 @using MovieQuestion.Shared.Models
 @inject ApiCommunicator ApiCommunicator
+@inject RatingManager RatingManager
+@inject NavigationManager NavigationManager
+@inject MovieManager MovieManager
 
 @if (_movies != null)
 {
@@ -9,8 +13,12 @@
         <ul id="movie-grid">
             @foreach (var movie in _movies)
             {
-                <div class="movie-item">
+                <div class="movie-item" @onclick="@(() => OnMovieClick(movie))">
                     <img src="@movie.ImageUrl" />
+                    @if(RatingManager.TryGetRating(movie, out var rating))
+                    {
+                        <h2> Rating: @rating.Score </h2>
+                    }
                 </div>
             }
         </ul>
@@ -24,8 +32,13 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _movies = await ApiCommunicator.GetMovies();
+        _movies = MovieManager.Movies;
         StateHasChanged();
+    }
+
+    private void OnMovieClick(Movie movie)
+    {
+        NavigationManager.Navigate($"movie/{movie.Id}");
     }
 
 }

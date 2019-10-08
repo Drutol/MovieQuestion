@@ -9,7 +9,7 @@ using MovieQuestion.Shared.Requests;
 namespace MovieQuestion.Server.Controllers
 {
     [ApiController]
-    [Route(("movie"))]
+    [Route(("rating"))]
     public class RatingController : ControllerBase
     {
         private readonly IMediator _mediator;

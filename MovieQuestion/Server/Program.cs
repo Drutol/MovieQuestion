@@ -16,6 +16,7 @@ namespace MovieQuestion.Server
                 .UseConfiguration(new ConfigurationBuilder()
                     .AddCommandLine(args)
                     .Build())
+                .UseUrls("http://*:5678")
                 .UseStartup<Startup>()
                 .Build();
     }

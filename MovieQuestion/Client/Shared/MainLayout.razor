@@ -1,4 +1,14 @@
-﻿@inherits LayoutComponentBase
+﻿@using Blazor.Extensions.Storage
+@using MovieQuestion.Client.Components
+@using MovieQuestion.Client.Infrastructure
+@using MovieQuestion.Shared.Models
+@inherits LayoutComponentBase
+@inject IModalService Modal
+@inject LocalStorage Storage
+@inject RatingManager RatingManager
+@inject MovieManager MovieManager
+@inject NavigationManager NavigationManager
+<BlazoredModal />
 
 <div class="sidebar">
     <NavMenu />
@@ -13,3 +23,23 @@
         @Body
     </div>
 </div>
+
+@code
+{
+    protected override async Task OnInitializedAsync()
+    {
+        await MovieManager.LoadMovies();
+        var user = await Storage.GetItem<AppUser>(nameof(AppUser));
+        if (user == null)
+        {
+            Modal.Show("Your username", typeof(UsernameModal));
+        }
+        else
+        {
+            await RatingManager.LoadScores();
+        }
+    }
+
+}
+
+

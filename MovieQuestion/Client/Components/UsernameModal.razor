@@ -1,0 +1,26 @@
+﻿@using Blazor.Extensions.Storage
+@using MovieQuestion.Client.Infrastructure
+@using MovieQuestion.Shared.Models
+@inject IModalService Modal
+@inject LocalStorage Storage
+@inject ApiCommunicator ApiCommunicator
+@inject RatingManager RatingManager
+
+<input placeholder="Username..." type="text" @bind="@Username" />
+<button class="btn btn-info" @onclick="@OnClick">Ok</button>
+
+@code {
+
+    public string Username { get; set; }
+
+    public async void OnClick()
+    {
+        if (!string.IsNullOrEmpty(Username))
+        {
+            var user = await ApiCommunicator.GetUser(Username);
+            await Storage.SetItem(nameof(AppUser), user);
+            Modal.Cancel();
+            await RatingManager.LoadScores();
+        }
+    }
+}

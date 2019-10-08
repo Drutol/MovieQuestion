@@ -9,6 +9,9 @@ using Newtonsoft.Json.Serialization;
 using System.Linq;
 using System.Reflection;
 using MediatR;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.FileProviders.Physical;
 using MovieQuestion.Server.Mongo;
 using MovieQuestion.Shared.Models;
 using Newtonsoft.Json;
@@ -44,10 +47,26 @@ namespace MovieQuestion.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBlazorDebugging();
-            }
+            }            
+            
+            app.UsePathBase("/movies/");
             app.UseMvc(routes => { routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}"); });
-            app.UseStaticFiles();
-            app.UseClientSideBlazorFiles<Client.Startup>();
+            app.Map("/movies", builder => { builder.UseClientSideBlazorFiles<Client.Startup>(); });
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                RequestPath = "",
+                FileProvider = new PhysicalFileProvider("/root/movies/MovieQuestion.Client/dist"),
+                ContentTypeProvider = new FileExtensionContentTypeProvider
+                {
+                    Mappings = 
+                    {
+                        {".dll", "application/octet-stream" }
+                    }
+                }
+                
+            });
+
+            
 
             app.UseRouting();
 
@@ -63,5 +82,6 @@ namespace MovieQuestion.Server
             //await moviesRepository.AddManyAsync(
             //    JsonConvert.DeserializeObject<List<Movie>>(File.ReadAllText("Assets/movies.json")));
         }
+
     }
 }

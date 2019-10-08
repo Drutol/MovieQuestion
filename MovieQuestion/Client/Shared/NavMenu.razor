@@ -1,4 +1,10 @@
-﻿<div class="top-row pl-4 navbar navbar-dark">
+﻿@using Blazor.Extensions.Storage
+@using MovieQuestion.Client.Components
+@using MovieQuestion.Shared.Models
+@inject LocalStorage LocalStorage
+@inject IModalService Modal
+
+<div class="top-row pl-4 navbar navbar-dark">
     <a class="navbar-brand" href="">MovieQuestion</a>
     <button class="navbar-toggler" @onclick="ToggleNavMenu">
         <span class="navbar-toggler-icon"></span>
@@ -18,8 +24,8 @@
             </NavLink>
         </li>
         <li class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" @onclick="@LogOut">
+                <span class="oi oi-account-logout" aria-hidden="true"></span> Logout
             </NavLink>
         </li>
     </ul>
@@ -33,5 +39,12 @@
     void ToggleNavMenu()
     {
         collapseNavMenu = !collapseNavMenu;
+    }
+
+
+    public void LogOut()
+    {
+        LocalStorage.RemoveItem(nameof(AppUser));
+        Modal.Show("Your username", typeof(UsernameModal));
     }
 }

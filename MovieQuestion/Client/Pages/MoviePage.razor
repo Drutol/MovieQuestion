@@ -1,0 +1,51 @@
+﻿@page "/movie/{id}"
+@using Blazor.Extensions.Storage
+@using MovieQuestion.Client.Infrastructure
+@using MovieQuestion.Client.Utils
+@using MovieQuestion.Shared.Models
+@inject ApiCommunicator ApiCommunicator
+@inject RatingManager RatingManager
+@inject NavigationManager NavigationManager
+@inject MovieManager MovieManager
+@inject LocalStorage LocalStorage
+
+@if (_movie != null)
+{
+    <img src="@_movie.ImageUrl"/>
+    <button class="btn btn-info" @onclick="@(() => Rate(1))"><span class="oi oi-star"/></button>
+    <button class="btn btn-info" @onclick="@(() => Rate(2))"><span class="oi oi-star"/><span class="oi oi-star"/></button>
+    <button class="btn btn-info" @onclick="@(() => Rate(3))"><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/></button>
+    <button class="btn btn-info" @onclick="@(() => Rate(4))"><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/></button>
+    <button class="btn btn-info" @onclick="@(() => Rate(5))"><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/></button>
+}
+
+
+@code {
+
+    [Parameter]
+    public string Id { get; set; }
+
+    private Movie _movie;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (int.TryParse(Id, out var id))
+        {
+            _movie = MovieManager.Movies.FirstOrDefault(movie => movie.Id == id);
+        }
+    }
+
+    private async void Rate(int score)
+    {
+        var rating = new MovieRating
+        {
+            MovieId = _movie.Id,
+            UserId = (await LocalStorage.GetItem<AppUser>()).Id,
+            Score = score
+        };
+        await ApiCommunicator.AddRating(rating);
+        RatingManager.SetRating(rating);
+        NavigationManager.NavigateTo("movies");
+    }
+
+}
