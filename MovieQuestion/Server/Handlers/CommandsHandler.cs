@@ -29,7 +29,7 @@ namespace MovieQuestion.Server.Handlers
                 return Unit.Value;
 
             var existingRating = await _ratingRepository.FirstAsync(rating =>
-                rating.UserId == request.MovieRating.MovieId && rating.MovieId == request.MovieRating.UserId);
+                rating.UserId == request.MovieRating.UserId && rating.MovieId == request.MovieRating.MovieId);
 
             if (existingRating != null)
             {

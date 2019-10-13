@@ -17,7 +17,15 @@
                     <img src="@movie.ImageUrl" />
                     @if(RatingManager.TryGetRating(movie, out var rating))
                     {
-                        <h2> Rating: @rating.Score </h2>
+                        if (rating.Score >= 0)
+                        {
+                            <div class="star-box">
+                                @for (int i = 0; i < rating.Score + 1; i++)
+                                {
+                                    <span class="oi oi-star star" />
+                                }
+                            </div>
+                        }
                     }
                 </div>
             }

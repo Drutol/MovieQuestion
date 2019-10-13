@@ -28,7 +28,7 @@ namespace MovieQuestion.Server
             services.AddResponseCompression(opts =>
             {
                 opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
-                    new[] {"application/octet-stream"});
+                    new[] { "application/octet-stream" });
             });
 
             services.AddSingleton(new MongoContext("mongodb://localhost:27017/MovieQuestion"));
@@ -47,9 +47,11 @@ namespace MovieQuestion.Server
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBlazorDebugging();
-            }            
-            
-            app.UsePathBase("/movies/");
+            }
+
+
+#if !DEBUG
+            app.UsePathBase("/movies");
             app.UseMvc(routes => { routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}"); });
             app.Map("/movies", builder => { builder.UseClientSideBlazorFiles<Client.Startup>(); });
             app.UseStaticFiles(new StaticFileOptions
@@ -58,15 +60,20 @@ namespace MovieQuestion.Server
                 FileProvider = new PhysicalFileProvider("/root/movies/MovieQuestion.Client/dist"),
                 ContentTypeProvider = new FileExtensionContentTypeProvider
                 {
-                    Mappings = 
+                    Mappings =
                     {
                         {".dll", "application/octet-stream" }
                     }
                 }
-                
             });
+#else
+            app.UseMvc(routes => { routes.MapRoute(name: "default", template: "{controller}/{action}/{id?}"); });
+            app.UseStaticFiles();
+            app.UseClientSideBlazorFiles<Client.Startup>();
+            app.UseStaticFiles();
+#endif
 
-            
+
 
             app.UseRouting();
 

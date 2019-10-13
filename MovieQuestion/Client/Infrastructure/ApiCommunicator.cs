@@ -14,7 +14,7 @@ namespace MovieQuestion.Client.Infrastructure
     public class ApiCommunicator
     {
 #if DEBUG
-        public const string ApiUrl = "http://localhost:55307";
+        public const string ApiUrl = "http://localhost:5678";
 #else
         public const string ApiUrl = "https://mylovelyvps.xyz/movies";
 #endif

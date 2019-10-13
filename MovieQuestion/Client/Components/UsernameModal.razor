@@ -5,6 +5,7 @@
 @inject LocalStorage Storage
 @inject ApiCommunicator ApiCommunicator
 @inject RatingManager RatingManager
+@inject NavigationManager NavigationManager
 
 <input placeholder="Username..." type="text" @bind="@Username" />
 <button class="btn btn-info" @onclick="@OnClick">Ok</button>
@@ -21,6 +22,7 @@
             await Storage.SetItem(nameof(AppUser), user);
             Modal.Cancel();
             await RatingManager.LoadScores();
+            NavigationManager.NavigateTo("movies");
         }
     }
 }

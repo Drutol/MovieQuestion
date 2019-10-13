@@ -141,6 +141,8 @@ app {
 }
 
 #movie-grid {
+    display: flex;
+    flex-wrap: wrap;
     grid-row: 2;
     grid-column: 1;
     text-align: justify;
@@ -149,7 +151,7 @@ app {
 }
 
 .movie-item {
-    display: inline-block;
+    display: grid;
     grid-template-rows: auto auto;
     grid-template-columns: auto auto;
     background: white;
@@ -159,6 +161,7 @@ app {
     border-radius: 5px;
     cursor: pointer;
     transition: box-shadow 0.1s ease-in-out;
+    justify-items: center;
 }
 
 .movie-item:hover {
@@ -174,4 +177,96 @@ app {
     border-radius: 5px;
     margin: 16px;
     box-shadow: 2px 2px 3px 1px rgba(0, 0, 0, .1);
+}
+
+.movie-item .star {
+    color: gold;
+}
+
+.movie-item .star-box {
+    display: flex;
+    width: min-content;
+    grid-row: 2;
+    grid-column: 1;
+    margin-bottom: 10px;
+}
+
+.movie-page-grid {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.movie-poster {
+    max-width: 80%;
+    horiz-align: center;
+    grid-column-start: 1;
+    grid-column-end: 1;
+}
+
+.rating-grid {
+    display: grid;
+    margin: 16px;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto 2fr 2fr 1fr;
+    grid-column-gap: 10px;
+    grid-row-gap: 15px;
+
+    grid-column-start: 2;
+    grid-column-end: 2;
+}
+
+.rating-grid span {
+    color: white;
+}
+
+.rating-grid h2 {
+    grid-row: 1;
+}
+
+.rating-grid .btn {
+    max-height: 150px;
+}
+
+.rating-grid .zero {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 2;
+    grid-row-end: 2;
+}
+.rating-grid .one {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 2;
+    grid-row-end: 2;
+}
+.rating-grid .two {
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 2;
+    grid-row-end: 2;
+}
+.rating-grid .three {
+    grid-column-start: 1;
+    grid-column-end: 1;
+    grid-row-start: 3;
+    grid-row-end: 3;
+}
+.rating-grid .four {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 3;
+    grid-row-end: 3;
+}
+.rating-grid .five {
+    grid-column-start: 3;
+    grid-column-end: 3;
+    grid-row-start: 3;
+    grid-row-end: 3;
+}
+
+.rating-grid .skip {
+    grid-column-start: 1;
+    grid-column-end: 4;
+    grid-row-start: 4;
+    grid-row-end: 4;
 }
