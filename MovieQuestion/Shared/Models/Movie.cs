@@ -20,5 +20,6 @@ namespace MovieQuestion.Shared.Models
         public string ImageUrl { get; set; }
         public string Tagline { get; set; }
         public DateTime? ReleaseDate { get; set; }
+        public string Description { get; set; }
     }
 }

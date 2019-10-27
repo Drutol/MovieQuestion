@@ -13,18 +13,19 @@
 {
     <div class="movie-page-grid">
         <img class="movie-poster" src="@_movie.ImageUrl"/>
+        <p class="jumbotron">@_movie.Description</p>
         <div class="rating-grid">
             <h2>@_movie.Title</h2>
+            <h5>@($"Film {_movie.Id} z 200")</h5>
             <button class="btn btn-warning zero" @onclick="@(() => Rate(0))"><span class="oi oi-star"/></button>
             <button class="btn btn-warning one" @onclick="@(() => Rate(1))"><span class="oi oi-star"/><span class="oi oi-star" /></button>
             <button class="btn btn-warning two" @onclick="@(() => Rate(2))"><span class="oi oi-star"/><span class="oi oi-star" /><span class="oi oi-star"/></button>
             <button class="btn btn-warning three" @onclick="@(() => Rate(3))"><span class="oi oi-star"/><span class="oi oi-star" /><span class="oi oi-star"/><span class="oi oi-star"/></button>
             <button class="btn btn-warning four" @onclick="@(() => Rate(4))"><span class="oi oi-star"/><span class="oi oi-star" /><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/></button>
             <button class="btn btn-warning five" @onclick="@(() => Rate(5))"><span class="oi oi-star"/><span class="oi oi-star" /><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/><span class="oi oi-star"/></button>
-            <button class="btn btn-danger skip" @onclick="@(() => Rate(-1))">Pomiń</button>
+            <button class="btn btn-danger skip" @onclick="@(() => Rate(-1))">Nie obejrzany</button>
         </div>
     </div>
-
 }
 
 
